@@ -23,21 +23,10 @@
 | `docs/` | 설계·계획 문서 (`docs/plans/2026-11-14-bungeoppang3-rviz-link.md` 에 연결 구조) |
 
 ## 로봇 공정
-`ros2_ws/src/bungeoppang2/` 에 포함돼 있어 이 저장소만 클론하면 됩니다.
-출처: [SujinJi/bungeoppang3](https://github.com/SujinJi/bungeoppang3) · 수정 내역: [NOTICE.md](ros2_ws/src/bungeoppang2/NOTICE.md)
+`ros2_ws/src/bungeoppang2/` 에 포함돼 있어 이 저장소만 클론하면 됩니다. ([원본](https://github.com/SujinJi/bungeoppang3) · [수정 내역](ros2_ws/src/bungeoppang2/NOTICE.md))
 
-**필요한 것** (ROS 2 Jazzy, 따로 설치)
-- 두산 로봇 패키지 [doosan-robot2](https://github.com/DoosanRobotics/doosan-robot2) (`dsr_bringup2` 등)
-- 그리퍼 description (`rh_p12_rn_a_description`)
-
-**빌드**
-```bash
-cd ros2_ws
-source /opt/ros/jazzy/setup.bash
-source <두산 워크스페이스>/install/setup.bash
-colcon build --packages-select boong_interfaces boong_robot bungeoppang2
-source install/setup.bash
-```
+- 별도 설치 (ROS 2 Jazzy): [doosan-robot2](https://github.com/DoosanRobotics/doosan-robot2), `rh_p12_rn_a_description`
+- 빌드: `colcon build --packages-select boong_interfaces boong_robot bungeoppang2`
 
 **주문 화면 단계 ↔ 공정**
 
