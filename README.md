@@ -23,11 +23,21 @@
 | `docs/` | 설계·계획 문서 (`docs/plans/2026-11-14-bungeoppang3-rviz-link.md` 에 연결 구조) |
 
 ## 로봇 공정
-로봇 공정은 별도 저장소 [SujinJi/bungeoppang3](https://github.com/SujinJi/bungeoppang3) 의 `bungeoppang2` 패키지를 사용합니다.
-이 저장소의 브리지(`backend:=bungeoppang3`)는 그 공정과 `/bungeoppang/start_bake`, `/bungeoppang/bake_done`, `/bungeoppang/stage` 토픽으로 연결됩니다.
+로봇 공정 패키지 `bungeoppang2`([SujinJi/bungeoppang3](https://github.com/SujinJi/bungeoppang3) 기반)가 `ros2_ws/src/bungeoppang2/` 에 포함돼 있어, 이 저장소만 클론하면 됩니다.
+출처와 수정 내역은 [`ros2_ws/src/bungeoppang2/NOTICE.md`](ros2_ws/src/bungeoppang2/NOTICE.md) 에 있습니다.
+브리지(`backend:=bungeoppang3`)는 공정과 `/bungeoppang/start_bake`, `/bungeoppang/bake_done`, `/bungeoppang/stage` 토픽으로 연결됩니다.
 
-- 공정 번호 신호(`/bungeoppang/stage`)는 `python3 tools/patch_bake_stage.py <bake_sequence_node.py>` 로 로컬 복사본에 추가합니다 (원본은 수정하지 않습니다).
-- 공정 코드가 쓰는 이름이 모두 정의돼 있는지는 `python3 tools/check_bungeo3_names.py <bungeoppang2_yammy 폴더>` 로 미리 확인할 수 있습니다.
+- 두산 로봇 패키지(`dsr_bringup2` 등, [doosan-robot2](https://github.com/DoosanRobotics/doosan-robot2))와 그리퍼 description(`rh_p12_rn_a_description`)은 따로 설치해야 합니다 (ROS 2 Jazzy).
+- 공정 코드가 쓰는 이름이 모두 정의돼 있는지: `python3 tools/check_bungeo3_names.py ros2_ws/src/bungeoppang2/bungeoppang2_yammy`
+
+### 빌드
+```bash
+cd ros2_ws
+source /opt/ros/jazzy/setup.bash
+source <두산 워크스페이스>/install/setup.bash      # dsr_* 패키지
+colcon build --packages-select boong_interfaces boong_robot bungeoppang2
+source install/setup.bash
+```
 
 주문 화면 단계 ↔ 공정 번호
 
@@ -42,7 +52,7 @@
 
 ## 실행 (터미널 6개)
 ```bash
-# 1 RViz + 에뮬레이터 (bungeoppang2 패키지 필요)
+# 1 RViz + 에뮬레이터
 ros2 launch bungeoppang2 sim.launch.py bake:=false
 # 2 공정 노드 (서빙 모드)
 ros2 run bungeoppang2 bake_sequence --serve
