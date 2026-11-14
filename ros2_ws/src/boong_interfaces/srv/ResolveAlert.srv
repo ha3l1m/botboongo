@@ -1,0 +1,5 @@
+string order_id
+string action      # "retry"(다시 굽기) | "continue"(그대로 진행) | "cancel"(주문 취소)
+---
+bool ok
+string message

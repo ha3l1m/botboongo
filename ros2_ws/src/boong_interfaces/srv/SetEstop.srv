@@ -1,0 +1,3 @@
+bool stop          # true=비상 정지, false=재개
+---
+bool ok

@@ -1,0 +1,11 @@
+node_modules
+dist
+dist-server
+.boong-data
+.DS_Store
+*.local
+docker/.env
+__pycache__/
+.gstack/
+docs/design/ref/
+*.tsbuildinfo
