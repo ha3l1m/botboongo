@@ -26,6 +26,9 @@
 로봇 공정은 별도 저장소 [SujinJi/bungeoppang3](https://github.com/SujinJi/bungeoppang3) 의 `bungeoppang2` 패키지를 사용합니다.
 이 저장소의 브리지(`backend:=bungeoppang3`)는 그 공정과 `/bungeoppang/start_bake`, `/bungeoppang/bake_done`, `/bungeoppang/stage` 토픽으로 연결됩니다.
 
+- 공정 번호 신호(`/bungeoppang/stage`)는 `python3 tools/patch_bake_stage.py <bake_sequence_node.py>` 로 로컬 복사본에 추가합니다 (원본은 수정하지 않습니다).
+- 공정 코드가 쓰는 이름이 모두 정의돼 있는지는 `python3 tools/check_bungeo3_names.py <bungeoppang2_yammy 폴더>` 로 미리 확인할 수 있습니다.
+
 주문 화면 단계 ↔ 공정 번호
 
 | 공정 | 화면 단계 |
@@ -67,11 +70,3 @@ npm run build       # 타입 검사 + 빌드
 - 관리자 화면의 PIN(`VITE_ADMIN_PIN`)은 브라우저에서만 확인합니다. 빌드된 JS 에 값이 들어가므로 보안 수단이 아니라 임시 잠금입니다.
 - 로봇 컨트롤러 IP, 네트워크 대역 등 현장 정보는 `docker/.env` (git 제외)에 두고, 문서에는 `<...>` 자리표시자만 둡니다.
 - `.env.local`, `.boong-data/`(서버 저장 데이터)는 `.gitignore` 로 제외돼 있습니다.
-
-## 알려진 문제 (로봇 공정 저장소)
-[SujinJi/bungeoppang3](https://github.com/SujinJi/bungeoppang3) 의 `main` 에서는 11/13 16:04 커밋(`ab9d2e6`)에 두 파일의 내용이 서로 바뀌어 올라가 있습니다.
-- `bungeoppang2_yammy/bake_sequence_node.py` ← 실행 코드는 `47381bb` 버전이어야 합니다 (`main()`, `--serve`, `start_bake` 구독, `bake_done` 발행).
-- `bungeoppang2_yammy/positions.py` ← 현재 `main` 의 `bake_sequence_node.py` 내용(704줄)이어야 합니다 (`END_GRIP_CLEAR` 등 최신 위치값).
-
-로컬에서 복구한 뒤 `python3 tools/check_bungeo3_names.py <bungeoppang2_yammy 폴더>` 로 이름 누락이 없는지 확인하세요.
-공정 번호 신호(`/bungeoppang/stage`)는 `python3 tools/patch_bake_stage.py <bake_sequence_node.py>` 로 로컬에 추가합니다.

@@ -40,8 +40,8 @@
 - 어드민 버튼 → `/boong/resolve_alert` (retry=다시 굽기 / continue / cancel), 비상정지 → `/boong/set_estop`
 - 명령이 ROS에 전달되지 않으면 화면 상단 빨간 배너로 알림 (로컬 화면만 정지로 바뀌고 실제 로봇은 안 멈추는 상황 방지)
 
-## ⚠️ 알아둘 점 (bungeoppang3 쪽 확인 필요)
-1. **`main`에 공정 실행부가 없음**: `bake_sequence_node.py` 가 `_spec_selfcheck()` 에서 끝나고 `main()`·`start_bake` 구독·`bake_done` 발행 코드가 없다. 로컬에만 있다면 푸시 필요. 그때까지는 `sim:=true` 로 검증.
+## ⚠️ 알아둘 점 (공정 쪽)
+1. **공정 노드는 서빙 모드(`bake_sequence --serve`)로 실행**해야 한다. `/bungeoppang/start_bake` 를 받아 굽고 끝나면 `/bungeoppang/bake_done` 을 낸다. 사용하는 공정 코드 버전에서 필요한 이름이 모두 있는지 `tools/check_bungeo3_names.py` 로 먼저 확인한다.
 2. **`/bungeoppang/stage`(Int32, 공정 번호 0~8) 발행을 추가하면** 고객앱 단계가 실제 진행과 맞는다. 없으면 `bungeo3.py` 의 `STAGE_SECONDS` 추정 시간으로 진행(에뮬레이터 실측 후 조정).
 3. **`/bungeoppang/estop`(Bool) 구독을 추가해야** 웹 비상정지가 공정을 실제로 멈춘다. 지금은 대기열 투입 중단 + 토픽 발행까지만.
 4. 틀 2개 = 한 번에 2개. 3개 이상 주문은 2개씩 나눠 연속 실행. 맛은 팥/슈크림만(웹도 ros 모드에서 초코 주문 차단).
