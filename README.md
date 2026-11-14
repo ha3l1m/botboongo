@@ -23,32 +23,32 @@
 | `docs/` | 설계·계획 문서 (`docs/plans/2026-11-14-bungeoppang3-rviz-link.md` 에 연결 구조) |
 
 ## 로봇 공정
-로봇 공정 패키지 `bungeoppang2`([SujinJi/bungeoppang3](https://github.com/SujinJi/bungeoppang3) 기반)가 `ros2_ws/src/bungeoppang2/` 에 포함돼 있어, 이 저장소만 클론하면 됩니다.
-출처와 수정 내역은 [`ros2_ws/src/bungeoppang2/NOTICE.md`](ros2_ws/src/bungeoppang2/NOTICE.md) 에 있습니다.
-브리지(`backend:=bungeoppang3`)는 공정과 `/bungeoppang/start_bake`, `/bungeoppang/bake_done`, `/bungeoppang/stage` 토픽으로 연결됩니다.
+`ros2_ws/src/bungeoppang2/` 에 포함돼 있어 이 저장소만 클론하면 됩니다.
+출처: [SujinJi/bungeoppang3](https://github.com/SujinJi/bungeoppang3) · 수정 내역: [NOTICE.md](ros2_ws/src/bungeoppang2/NOTICE.md)
 
-- 두산 로봇 패키지(`dsr_bringup2` 등, [doosan-robot2](https://github.com/DoosanRobotics/doosan-robot2))와 그리퍼 description(`rh_p12_rn_a_description`)은 따로 설치해야 합니다 (ROS 2 Jazzy).
-- 공정 코드가 쓰는 이름이 모두 정의돼 있는지: `python3 tools/check_bungeo3_names.py ros2_ws/src/bungeoppang2/bungeoppang2_yammy`
+**필요한 것** (ROS 2 Jazzy, 따로 설치)
+- 두산 로봇 패키지 [doosan-robot2](https://github.com/DoosanRobotics/doosan-robot2) (`dsr_bringup2` 등)
+- 그리퍼 description (`rh_p12_rn_a_description`)
 
-### 빌드
+**빌드**
 ```bash
 cd ros2_ws
 source /opt/ros/jazzy/setup.bash
-source <두산 워크스페이스>/install/setup.bash      # dsr_* 패키지
+source <두산 워크스페이스>/install/setup.bash
 colcon build --packages-select boong_interfaces boong_robot bungeoppang2
 source install/setup.bash
 ```
 
-주문 화면 단계 ↔ 공정 번호
+**주문 화면 단계 ↔ 공정**
 
-| 공정 | 화면 단계 |
+| 화면 단계 | 공정 |
 |---|---|
-| 0 홈 이동 · 비커 접근 | 접수 |
-| 1 1차 반죽 (비커를 잡은 직후부터) | 반죽 |
-| 2 속재료 · 3 2차 반죽 | 속 넣기 |
-| 4 뚜껑 · 5 굽기 · 6 돌림판+뒤집기 · 7 다시 뒤집기 · 8 펼치기 | 굽기 |
-| 공정 끝 → `pack_sec`초(기본 6) | 포장 (공정에 포장이 없어 브리지가 만든 단계) |
-| 그 뒤 | 픽업 대기 |
+| 접수 | 0 홈 · 비커로 접근 |
+| 반죽 | 1 1차 반죽 (비커를 잡은 직후부터) |
+| 속 넣기 | 2 속재료 · 3 2차 반죽 |
+| 굽기 | 4 뚜껑 · 5 굽기 · 6 돌림판+뒤집기 · 7 다시 뒤집기 · 8 펼치기 |
+| 포장 | 공정 종료 후 6초 (`pack_sec`, 브리지가 만든 단계) |
+| 픽업 대기 | 포장 이후 |
 
 ## 실행 (터미널 6개)
 ```bash
